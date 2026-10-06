@@ -1,0 +1,76 @@
+name: ST21-Door Trial Access Request
+description: Request trial access to the ST21-Door public judgement API. Trial access is granted manually by the project maintainer.
+title: "[Trial Access] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ST21-Door Trial Access Request
+
+        Use this form to request access to the public ST21-Door judgement API:
+
+        `https://shishuanglu21.com/door/check`
+
+        Requests are reviewed and access is issued **manually** by the project
+        maintainer. There is no automatic approval, no automatic issuance and no
+        instant access — an open request is a request, not a grant.
+
+        > **Do not post API keys, passwords, tokens, Trial Headers, or private data in this issue.**
+        >
+        > This form never asks for any of them. The Trial header name and value are
+        > kept private on the server side and are never published in this
+        > repository, in issues, or in releases. If trial access is granted, your
+        > Trial header is sent to you privately by the maintainer — never by
+        > replying here.
+
+  - type: input
+    id: handle
+    attributes:
+      label: Name or handle
+      description: How should we address you? A GitHub handle or any name you use publicly is fine.
+      placeholder: "\"@your-handle\""
+    validations:
+      required: true
+
+  - type: dropdown
+    id: intended_use
+    attributes:
+      label: Intended use
+      description: What kind of work is this trial access for?
+      options:
+        - testing
+        - research
+        - evaluation
+        - other
+    validations:
+      required: true
+
+  - type: textarea
+    id: what_to_test
+    attributes:
+      label: What do you want to test?
+      description: A brief description of what you plan to send to the Door. One or two sentences is enough — no confidential or private data.
+      placeholder: Short material / task / model-output triples for an evaluation.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: acknowledgements
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: I understand that trial access is reviewed and granted manually, and is never automatic.
+          required: true
+        - label: I will not post API keys, passwords, tokens, Trial Headers, or private data in this issue.
+          required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        Once access is granted and you hold a valid Trial header, call the
+        endpoint exactly as shown in
+        [`examples/check.sh`](https://github.com/Stone21-SaaS/ST21-Door-Public/blob/main/examples/check.sh).
+        Requests without a valid trial header are refused at the edge (HTTP 403),
+        before any judgement is made.

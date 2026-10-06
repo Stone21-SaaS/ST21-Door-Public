@@ -95,6 +95,28 @@ access. The header name and its value are kept private on the server side and
 are deliberately **not** published in this repository. A request without a
 valid trial header is refused at the edge, before any judgement is made.
 
+### Requesting trial access
+
+Trial access is requested publicly through GitHub — no private channel is
+needed to ask. Use this repository's issue form:
+
+* **[ST21-Door Trial Access Request](https://github.com/Stone21-SaaS/ST21-Door-Public/issues/new?template=trial-access.yml)**
+
+1. Open the **ST21-Door Trial Access Request** issue form and fill in the few
+   fields it asks for: your name or handle, the intended use, and a brief
+   description of what you want to test.
+2. Submit the issue. The form never asks for secrets — do not include API
+   keys, passwords, tokens, Trial Headers, or private data.
+3. The request is reviewed by the project maintainer, who issues trial access
+   **manually**. There is no automatic approval, no automatic issuance and no
+   instant access: an open request is a request, not a grant.
+4. If trial access is granted, the Trial header is sent to you **privately** by
+   the maintainer. It is never published in this repository, in an issue, or in
+   a release.
+5. Once you hold a valid Trial header, call the endpoint as shown in
+   [`examples/check.sh`](examples/check.sh), passing the header as `Name: value`
+   in the `ST21_TRIAL_HEADER` environment variable.
+
 ---
 
 ## Errors
@@ -107,7 +129,7 @@ Errors never look like verdicts.
 | `400` | `{"error":"missing_fields","missing":[...]}` | one or more of the three fields is absent |
 | `400` | `{"error":"unknown_fields","unknown":[...]}` | the body carried fields outside the three-field contract |
 | `400` | `{"error":"fields_must_be_strings"}` | a field was present but was not a string |
-| `403` | *(edge refusal)* | no valid trial header |
+| `403` | *(edge refusal)* | no valid trial header — see [Access](#access) |
 | `404` | `{"error":"not_found"}` | wrong path |
 | `503` | `{"error":"door_unavailable"}` | the service did not run. This is a failure of the service, not a verdict — retry later |
 
