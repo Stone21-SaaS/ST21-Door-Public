@@ -1,0 +1,5 @@
+{
+  "material": "The office has twelve desks. Nine of them are occupied and three are free.",
+  "task": "State how many desks in the office are free.",
+  "model_output": "Three desks in the office are free."
+}

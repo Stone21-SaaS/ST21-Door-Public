@@ -1,0 +1,23 @@
+# This repository is a public entry layer: private runtime artefacts must never
+# be published from it.  The entries below are a safety net.
+
+# runtime logs and records
+logs/
+*.jsonl
+*.log
+
+# secrets and credentials
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+credentials*
+trial*
+
+# local editor / OS noise
+.DS_Store
+Thumbs.db
+*.swp
