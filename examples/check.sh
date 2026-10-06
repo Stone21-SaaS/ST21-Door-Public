@@ -5,8 +5,11 @@
 # Usage:
 #   ST21_TRIAL_HEADER='<trial header line issued to you>' ./examples/check.sh
 #
-# The trial header name and value are issued separately.  They are kept private
-# on the server side and are deliberately NOT published in this repository.
+# Get a trial header yourself, with no approval step, at:
+#   https://shishuanglu21.com/door/trial
+# The value is issued to you on the spot; it expires after about 24 hours or
+# 100 requests, whichever comes first.  Only the header name (X-ST21-Door-Trial)
+# is public -- values are never published in this repository and never logged.
 #
 set -euo pipefail
 

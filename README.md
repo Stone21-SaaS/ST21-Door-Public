@@ -2,6 +2,8 @@
 
 **Public API endpoint:** `https://shishuanglu21.com/door/check`
 
+**Get trial access (self-service, no approval):** <https://shishuanglu21.com/door/trial>
+
 ST21-Door is a judgement door. A caller submits one triple — the material a
 decision rests on, the task being asked, and the model output that answers it —
 and the Door returns exactly one verdict.
@@ -90,32 +92,48 @@ triple you send.
 
 ## Access
 
-Requests must carry a valid **Trial header**, issued separately with your trial
-access. The header name and its value are kept private on the server side and
-are deliberately **not** published in this repository. A request without a
-valid trial header is refused at the edge, before any judgement is made.
+Requests must carry a valid **Trial header** — an `X-ST21-Door-Trial` request
+header whose *value* is issued to you by the service itself. A request without
+a valid trial header is refused at the edge, before any judgement is made.
 
-### Requesting trial access
+### Get Trial Access
 
-Trial access is requested publicly through GitHub — no private channel is
-needed to ask. Use this repository's issue form:
+Trial access is self-service. Nothing is requested from the maintainer, no one
+approves anything, and nothing is asked of you in return.
 
-* **[ST21-Door Trial Access Request](https://github.com/Stone21-SaaS/ST21-Door-Public/issues/new?template=trial-access.yml)**
+* **[Get a Trial Header](https://shishuanglu21.com/door/trial)**
 
-1. Open the **ST21-Door Trial Access Request** issue form and fill in the few
-   fields it asks for: your name or handle, the intended use, and a brief
-   description of what you want to test.
-2. Submit the issue. The form never asks for secrets — do not include API
-   keys, passwords, tokens, Trial Headers, or private data.
-3. The request is reviewed by the project maintainer, who issues trial access
-   **manually**. There is no automatic approval, no automatic issuance and no
-   instant access: an open request is a request, not a grant.
-4. If trial access is granted, the Trial header is sent to you **privately** by
-   the maintainer. It is never published in this repository, in an issue, or in
-   a release.
-5. Once you hold a valid Trial header, call the endpoint as shown in
-   [`examples/check.sh`](examples/check.sh), passing the header as `Name: value`
-   in the `ST21_TRIAL_HEADER` environment variable.
+1. Open <https://shishuanglu21.com/door/trial> in a browser.
+2. Click **Get a Trial Header**. A trial header is issued immediately and shown
+   once, on that page.
+3. Use it as an ordinary request header, as in
+   [`examples/check.sh`](examples/check.sh):
+
+   ```bash
+   export ST21_TRIAL_HEADER='X-ST21-Door-Trial: <the value you were just issued>'
+   ./examples/check.sh
+   ```
+
+4. The call itself is unchanged: `POST https://shishuanglu21.com/door/check`
+   with the three-field body.
+
+Trial access is deliberately short-lived and bounded. Each trial header expires
+after about 24 hours and allows a limited number of requests (currently 100),
+whichever comes first. When it expires or runs out it is refused at the edge
+with `HTTP 403`, and you can simply visit the same page again to get a new one.
+
+No GitHub account, issue, e-mail, sign-up, password, API key or message to the
+maintainer is needed — and none of them is part of the flow. Nothing identifies
+you: the trial layer stores an anonymised record of issued headers, their
+expiry and how many requests they have used, and nothing else.
+
+Trial header *values* are never published: not in this repository, not in a
+release, not in an issue, and not in the server's logs. Only the header *name*
+(`X-ST21-Door-Trial`) is public. The value is shown once, to you, when it is
+issued.
+
+> A trial header is a door key, not an account: low-privilege, short-lived and
+> disposable. It buys one thing only — the right to send triples to the Door.
 
 ---
 
