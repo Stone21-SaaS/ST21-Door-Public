@@ -13,6 +13,32 @@ documents the public call contract and nothing else.
 
 ---
 
+## Why a Door?
+
+A model can sound perfectly confident while saying something its own material never supported. That gap — between what the material establishes and what the output claims — is the only thing ST21-Door watches.
+
+The Door does not judge whether an answer is clever, well-written, or correct in some absolute sense. It judges one relationship: did the output stay inside the boundary of what the supplied material actually supports?
+
+Anyone wiring a model into decisions, summaries, or customer-facing answers can put the Door between the model's output and the world: if the output overreaches its material, it does not go out.
+
+### What crossing the boundary looks like
+
+**Case 1 — upgrading a decision into a precedent → `BLOCK`**  
+Material: an online small-claims tribunal held an airline liable for its chatbot's misstatement and awarded CA$812. Decisions of this kind are not binding precedent.  
+Output: "the ruling sets a binding precedent: airlines are liable for chatbot statements."
+
+**Case 2 — upgrading a restriction into a shutdown → `BLOCK`**  
+Material: after flawed answers surfaced, Google restricted the AI Overviews feature in some scenarios.  
+Output: "Google has shut the feature down entirely."
+
+**Case 3 — staying inside the material → `ALLOW`**  
+Material: in 2006 the Philippine Supreme Court found no evidence of PepsiCo's negligence; PepsiCo won.  
+Output: "the court found no evidence of negligence; PepsiCo won."
+
+Three fields in, one verdict out. No scores, no explanations, no grading the model's arithmetic. The Door is a boundary judge, not an answer judge: it does not decide what is true, it decides whether the output overstepped its evidence.
+
+---
+
 ## Verdicts
 
 The public verdict set is closed. Exactly three values can ever be returned:
