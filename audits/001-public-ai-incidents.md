@@ -59,6 +59,8 @@ using a Trial credential obtained from:
 
 and send the credential in the `X-ST21-Door-Trial` header.
 
+**Notification:** This audit has been shared directly with the organization concerned.
+
 ## Case 2 — Chevrolet / $1 Tahoe
 
 ### Source
@@ -103,6 +105,8 @@ using a Trial credential from:
 `GET https://shishuanglu21.com/door/trial?issue=1`
 
 and the `X-ST21-Door-Trial` header.
+
+**Notification:** This audit has been shared directly with the organization concerned.
 
 ## Case 3 — DPD chatbot
 
@@ -152,6 +156,8 @@ using a Trial credential from:
 `GET https://shishuanglu21.com/door/trial?issue=1`
 
 and the `X-ST21-Door-Trial` header.
+
+**Notification:** This audit has been shared directly with the organization concerned.
 
 ## Notes
 
