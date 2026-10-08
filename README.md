@@ -176,6 +176,8 @@ To try the Door with a Trial credential:
 3. Include the Trial credential in the `X-ST21-Door-Trial` request header.
 4. Read the returned verdict: `ALLOW`, `BLOCK`, or `NEEDS_EVIDENCE`.
 
+**Note:** The first request after a period of inactivity may take longer while the backing model starts. Agents should allow a longer request timeout for the first call.
+
 This makes the Door directly testable by API-capable agents and computer-use agents: give an agent a material/task/output triple and let it try to cross the boundary.
 
 The Door does not decide whether an answer is correct in the abstract. It judges whether the output stayed within the boundary established by the supplied material and task.
