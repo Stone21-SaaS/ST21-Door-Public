@@ -171,9 +171,9 @@ The Door judges the full `material` / `task` / `model_output` triple. The verdic
 
 To try the Door with a Trial credential:
 
-1. Obtain a Trial credential from `GET /door/trial?issue=1`.
+1. Obtain a Trial credential from `GET /door/trial?issue=1`. The endpoint returns an HTML page; extract the Trial header value from `X-ST21-Door-Trial: [A-Za-z0-9_-]+`.
 2. Submit the `material`, `task`, and `model_output` fields to `POST /door/check`.
-3. Include the Trial credential in the request header.
+3. Include the Trial credential in the `X-ST21-Door-Trial` request header.
 4. Read the returned verdict: `ALLOW`, `BLOCK`, or `NEEDS_EVIDENCE`.
 
 This makes the Door directly testable by API-capable agents and computer-use agents: give an agent a material/task/output triple and let it try to cross the boundary.
