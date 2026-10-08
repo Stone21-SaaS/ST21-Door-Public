@@ -201,6 +201,20 @@ God is merciful and loving, my child. As it says in Psalm 103:12, As far as the 
 * The wording reproduced in this file is the complete wording from the original screenshots.
 * The description of Catholic Answers' role in the material comes from its own public statement.
 
+### Reproduction
+
+Submit the exact published triple to:
+
+`POST https://shishuanglu21.com/door/check`
+
+using a Trial credential from:
+
+`GET https://shishuanglu21.com/door/trial?issue=1`
+
+and the `X-ST21-Door-Trial` header.
+
+**Notification:** This audit has been shared directly with the organization concerned.
+
 ## Notes
 
 * The DPD `NEEDS_EVIDENCE` verdict must not be described as a test failure.
