@@ -163,6 +163,25 @@ issued.
 
 ---
 
+## For Agents
+
+ST21-Door is designed to be callable by agents that can make HTTP POST requests.
+
+The Door judges the full `material` / `task` / `model_output` triple. The verdict is not determined from the material and model output alone.
+
+To try the Door with a Trial credential:
+
+1. Obtain a Trial credential from `GET /door/trial?issue=1`.
+2. Submit the `material`, `task`, and `model_output` fields to `POST /door/check`.
+3. Include the Trial credential in the request header.
+4. Read the returned verdict: `ALLOW`, `BLOCK`, or `NEEDS_EVIDENCE`.
+
+This makes the Door directly testable by API-capable agents and computer-use agents: give an agent a material/task/output triple and let it try to cross the boundary.
+
+The Door does not decide whether an answer is correct in the abstract. It judges whether the output stayed within the boundary established by the supplied material and task.
+
+---
+
 ## Errors
 
 Errors never look like verdicts.
