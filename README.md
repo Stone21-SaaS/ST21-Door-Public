@@ -200,6 +200,14 @@ Errors never look like verdicts.
 
 ---
 
+## Public Audits
+
+Reproducible audits using publicly available AI outputs. Each case publishes the `material`, `task`, `model_output`, and Door verdict so anyone can reproduce the result.
+
+See [`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md).
+
+---
+
 ## What this repository is, and is not
 
 It is the public entry: project introduction, the public call contract, the
