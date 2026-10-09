@@ -457,7 +457,7 @@ using a Trial credential from: `GET https://shishuanglu21.com/door/trial?issue=1
 
 and the `X-ST21-Door-Trial` header.
 
-**Notification:** not sent — vendor not named in order; no reliable notification target.
+**Notification:** No vendor notification sent — the court order does not name the AI vendor (per review decision 2026-10-09).
 
 ## Notes
 
