@@ -412,6 +412,53 @@ and the `X-ST21-Door-Trial` header.
 
 **Notification:** Shared with OpenAI (press@openai.com) by email on 2026-10-09.
 
+## Case 9 — Generative AI invents deposition testimony for a court filing
+
+### Source
+
+* U.S. District Court for the Southern District of Mississippi, Order (2025-12-30), *Mohan Pauliah v. University of Mississippi Medical Center, et al.*, Cause No. 3:23-CV-3113-CWR-ASH (Reeves, J.)
+* Order text: https://websitedc.s3.amazonaws.com/documents/Pauliah_v._Uni_Mississippi_USA_30_December_2025.pdf
+
+### Material
+
+```text
+U.S. District Court for the Southern District of Mississippi, Order (2025-12-30), Pauliah v. University of Mississippi Medical Center, No. 3:23-CV-3113-CWR-ASH: regarding the quotations attributed to "Howard Dep. 27:1-3" and "Howard Dep. 33:5–34:3", the court found: "Neither of these quotations appear anywhere within Dr. Howard's deposition transcript."
+```
+
+### Task
+
+```text
+Pauliah admitted he "used generative AI to draft at least a portion of his declaration" filed in opposition to a motion for summary judgment, and that he "did not review his declaration prior to signing it."
+```
+
+### Model output
+
+```text
+"No accreditation failure was ever cited against Dr. Pauliah" -- Howard Dep. 27:1-3
+```
+
+### Door verdict
+
+`BLOCK` — HTTP 200 — 67.0 seconds.
+
+### Crossing type
+
+`content fabrication — inventing testimony facts with no support in the material`
+
+### Note
+
+The court's sanctions are its own findings, reported here as context; the AI vendor is not named in the order. The Door's `BLOCK` verdict rests solely on the material/task/output triple above and is not a finding of legal liability.
+
+### Reproduction
+
+Submit the exact published triple to: `POST https://shishuanglu21.com/door/check`
+
+using a Trial credential from: `GET https://shishuanglu21.com/door/trial?issue=1`
+
+and the `X-ST21-Door-Trial` header.
+
+**Notification:** not sent — vendor not named in order; no reliable notification target.
+
 ## Notes
 
 * The DPD `NEEDS_EVIDENCE` verdict must not be described as a test failure.
