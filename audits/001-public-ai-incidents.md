@@ -316,7 +316,7 @@ using a Trial credential from:
 
 and the `X-ST21-Door-Trial` header.
 
-**Notification:** This audit has been shared directly with the organization concerned.
+**Notification:** Shared with OpenAI (press@openai.com) by email on 2026-10-09.
 
 ## Case 7 — ChatGPT invents a court citation for an appellate brief
 
@@ -363,7 +363,7 @@ using a Trial credential from: `GET https://shishuanglu21.com/door/trial?issue=1
 
 and the `X-ST21-Door-Trial` header.
 
-**Notification:** pending — to be sent to OpenAI.
+**Notification:** Shared with OpenAI (press@openai.com) by email on 2026-10-09.
 
 ## Case 8 — ChatGPT invents a case and its quotation for a Daubert response
 
@@ -410,7 +410,7 @@ using a Trial credential from: `GET https://shishuanglu21.com/door/trial?issue=1
 
 and the `X-ST21-Door-Trial` header.
 
-**Notification:** pending — to be sent to OpenAI.
+**Notification:** Shared with OpenAI (press@openai.com) by email on 2026-10-09.
 
 ## Notes
 
