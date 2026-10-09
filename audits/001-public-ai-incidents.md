@@ -265,6 +265,8 @@ using a Trial credential from:
 
 and the `X-ST21-Door-Trial` header.
 
+**Notification:** This audit has been shared directly with the organization concerned.
+
 ## Notes
 
 * The DPD `NEEDS_EVIDENCE` verdict must not be described as a test failure.
