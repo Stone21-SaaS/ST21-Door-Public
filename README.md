@@ -4,6 +4,8 @@
 
 **Get trial access (self-service, no approval):** <https://shishuanglu21.com/door/trial>
 
+**First time here?** Start with the [Quick Start](QUICKSTART.md) before using the API.
+
 ST21-Door is a judgement door. A caller submits one triple — the material a
 decision rests on, the task being asked, and the model output that answers it —
 and the Door returns exactly one verdict.
