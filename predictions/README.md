@@ -17,6 +17,8 @@
 | `score_brier.py` | Brier 打分脚本（读各文件 front-matter） |
 | `P-2026-004.md` … `P-2026-012.md` | 第一期 9 条短期预测 |
 | `agi/P-AGI-001.md` | AGI 长期预测（**单独存放、单独判定**） |
+| `INVITATION.md` | 网友赛道邀请帖 |
+| `.github/ISSUE_TEMPLATE/prediction.yml` | 网友投稿模板（在本仓提 Prediction issue） |
 
 ---
 
