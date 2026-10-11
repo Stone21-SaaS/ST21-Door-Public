@@ -19,6 +19,7 @@ score_brier.py —— ST21-Door 公开预测栏的打分脚本（口径见 predi
 """
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -26,6 +27,9 @@ import sys
 
 FIELDS = ["id", "author", "content_sha256", "claim", "probability",
           "deadline_utc", "criterion", "criterion_source", "resolver", "status"]
+# R-a 参与哈希的 8 个字段（顺序固定；不含 content_sha256 自身与 status）
+HASH_FIELDS = ["id", "author", "claim", "probability", "deadline_utc",
+               "criterion", "criterion_source", "resolver"]
 SKIP_FILES = {"readme.md", "index.md", "_template.md", "score_brier.py"}
 
 
@@ -79,24 +83,65 @@ def collect(root):
     return rows
 
 
+def verify_hashes(root):
+    """按 R-a 从落盘文件重算 content_sha256，与文件中声明值逐条比对。
+    这是给复核者用的独立复核入口：一条命令即可自己复算，不必采信他人的结论。"""
+    ok = bad = n = 0
+    print("== R-a 哈希复核（从文件重算 vs 文件内声明）==")
+    for dirpath, _dn, filenames in os.walk(root):
+        for fn in sorted(filenames):
+            if not fn.lower().endswith(".md") or fn.lower() in SKIP_FILES:
+                continue
+            path = os.path.join(dirpath, fn)
+            rel = os.path.relpath(path, root).replace(os.sep, "/")
+            fm, _text = read_front_matter(path)
+            if not fm or "id" not in fm:
+                continue
+            n += 1
+            missing = [k for k in HASH_FIELDS + ["content_sha256"] if k not in fm]
+            if missing:
+                print("  %-24s MISSING FIELDS: %s" % (rel, missing))
+                bad += 1
+                continue
+            canonical = json.dumps([fm[k] for k in HASH_FIELDS],
+                                   ensure_ascii=False, separators=(",", ":"))
+            computed = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+            declared = fm["content_sha256"].strip()
+            match = (computed == declared)
+            ok += match
+            bad += (not match)
+            print("  %-24s %s  computed=%s declared=%s" %
+                  (rel, "MATCH " if match else "MISMATCH", computed[:16], declared[:16]))
+    print()
+    print("checked=%d  MATCH=%d  MISMATCH=%d" % (n, ok, bad))
+    return 0 if (bad == 0 and n > 0) else 1
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dir", default=os.path.dirname(os.path.abspath(__file__)),
                     help="predictions 目录（默认：脚本所在目录）")
     ap.add_argument("--json", action="store_true", help="输出 JSON")
+    ap.add_argument("--verify-hashes", action="store_true",
+                    help="只做 R-a 哈希复核：从文件重算 content_sha256 并与声明值比对")
     args = ap.parse_args()
+
+    if args.verify_hashes:
+        return verify_hashes(args.dir)
 
     rows = collect(args.dir)
     if not rows:
         print("没有找到任何预测文件。")
         return 0
 
-    # 同一事件标注：criterion_source + deadline_utc 相同者视为同事件可比较组
+    # 相关性提示：criterion_source + deadline_utc 相同的条目 —— 这**不足以认定是同一事件**，
+    # 只是提醒读者"这些预测用的是同一个来源、同一个时间窗口，结果可能相关"。
+    # 既**不**认定它们属于同一事件，也**不**认定它们相互独立。
     groups = {}
     for r in rows:
         key = (r["criterion_source"].strip(), r["deadline_utc"].strip())
         groups.setdefault(key, []).append(r["id"])
-    same_event = {k: v for k, v in groups.items() if len(v) > 1}
+    same_window = {k: v for k, v in groups.items() if len(v) > 1}
 
     scored, voids, open_items, other = [], [], [], []
     for r in rows:
@@ -130,7 +175,8 @@ def main():
                         "status": r["status"], "score": r["score"]} for r in scored],
             "voids": [{"id": r["id"], "author": r["author"], "reason": r["void_reason"]} for r in voids],
             "open": [{"id": r["id"], "author": r["author"], "deadline_utc": r["deadline_utc"]} for r in open_items],
-            "same_event_groups": {("%s | %s" % k): v for k, v in same_event.items()},
+            "same_source_window_groups": {("%s | %s" % k): v for k, v in same_window.items()},
+            "same_source_window_note": "同来源、同时间窗口的预测：只提示可能有相关性；不认定为同一事件，也不认定为相互独立。",
         }, ensure_ascii=False, indent=2))
         return 0
 
@@ -166,9 +212,11 @@ def main():
             print("  %-11s %-4s deadline=%s" % (r["id"], r["author"], r["deadline_utc"]))
         print()
 
-    if same_event:
-        print("== 同一事件（可分别计分，但非同一样本）==")
-        for (src, dl), ids in same_event.items():
+    if same_window:
+        print("== 同来源、同时间窗口的预测（仅为相关性提示）==")
+        print("   说明：下面这些预测用到同一个来源、同一个时间窗口，结果**可能相关**；")
+        print("   但这**不代表它们属于同一事件**，也**不代表它们相互独立**。")
+        for (src, dl), ids in same_window.items():
             print("  %s  <- source=%s deadline=%s" % (", ".join(ids), src, dl))
         print()
 

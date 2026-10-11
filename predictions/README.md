@@ -104,13 +104,21 @@
 - 单条得分：`(probability - outcome)^2`，其中 `TRUE = 1`、`FALSE = 0`。
 - 个人 Brier = 该预测者所有已结算条目的**平均**；同时披露**有效样本数 n**。
 - `VOID` **不计分**，单独统计**数量与原因**。
-- **同一事件多预测者**：分别计分，但**标注为同事件**（便于阅读时不当成独立样本）。
+- **同来源、同时间窗口的预测**：**分别计分**；脚本会把这类条目**列出来**，
+  但那只是**相关性提示** —— **不认定它们属于同一事件，也不认定它们相互独立**。
+  （判据：`criterion_source` 与 `deadline_utc` 相同。**这只是提示，不是认定。**）
 
 用法：
 
 ```bash
-python3 predictions/score_brier.py            # 从仓库根目录运行，或加 --dir 指定
+python3 predictions/score_brier.py                 # 正常打分
+python3 predictions/score_brier.py --json          # JSON 输出
+python3 predictions/score_brier.py --verify-hashes # 只做 R-a 哈希复核（复核者用这个）
 ```
+
+**复核者请用 `--verify-hashes`**：它从落盘文件重算每条的 `content_sha256` 并与文件内声明值逐条比对，
+输出 `MATCH / MISMATCH` 与汇总；**全部一致时退出码为 0**。
+**不必采信任何人的"已核过"结论 —— 自己跑一遍即可。**
 
 ---
 
