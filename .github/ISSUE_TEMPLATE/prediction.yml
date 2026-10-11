@@ -1,0 +1,104 @@
+name: Prediction 投稿
+description: 投一条预测，交给门做结算裁判（公开预测游戏 · 网友赛道）
+title: "[Prediction] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 投稿前请先读
+
+        - 完整规则见本仓 `predictions/README.md` 的「网友赛道」章节。
+        - 判据必须**二分**（发生 / 未发生）且**指向外部可核验来源**；判据写不明白的，直接打回。
+        - 截止时间窗口 **1–6 个月**（AGI 类暂不收）。
+        - 每人每月 **≤ 5 条**（人工执行，超量顺延或驳回）。
+        - **投稿人只填下面这些字段。** `content_sha256` 与发布时间由运维在受理建仓时按 R-a 口径计算并登记，**不用你填**。
+
+  - type: input
+    id: author
+    attributes:
+      label: author（投稿人）
+      description: 你的署名 / 昵称。
+      placeholder: 例如：张三
+    validations:
+      required: true
+
+  - type: textarea
+    id: claim
+    attributes:
+      label: claim（预测内容）
+      description: 一句话说清你预测什么。必须是**二分**命题，且**可外部核验**。
+      placeholder: 例如：2027-01-01 之前，X 会发布 Y。
+    validations:
+      required: true
+
+  - type: input
+    id: probability
+    attributes:
+      label: probability（主观概率，0–1，两位小数）
+      description: 写成两位小数字符串，例如 `0.45`。**取字符串形式，不做数值转换。**
+      placeholder: "0.45"
+    validations:
+      required: true
+
+  - type: input
+    id: deadline_utc
+    attributes:
+      label: deadline_utc（截止时间，完整 UTC 时间戳）
+      description: 形如 `YYYY-MM-DDTHH:MM:SSZ`；距投稿日 **1–6 个月**。
+      placeholder: "2027-04-11T00:00:00Z"
+    validations:
+      required: true
+
+  - type: textarea
+    id: criterion
+    attributes:
+      label: criterion（判定标准：怎么写算 TRUE、怎么写算 FALSE）
+      description: 必须写清「发生」与「未发生」两种条件；如果判据要排除什么，一并写死。
+      placeholder: |
+        发生（TRUE）：…
+        未发生（FALSE）：…
+        以下不算命中：…
+    validations:
+      required: true
+
+  - type: input
+    id: criterion_source
+    attributes:
+      label: criterion_source（去哪核验）
+      description: 预先确定的证据来源，写具体来源名或网址。优先级：官方公告 > 正式文件 > 原始数据。
+      placeholder: 例如：某某官网公告页
+    validations:
+      required: true
+
+  - type: input
+    id: resolver
+    attributes:
+      label: resolver（到期由谁查证）
+      description: 网友赛道由运维执行。不填则按默认登记。
+      value: 小曜（运维执行）
+    validations:
+      required: false
+
+  - type: input
+    id: status
+    attributes:
+      label: status（状态）
+      description: 受理建仓时登记，默认 `OPEN`。投稿人不用改。
+      value: OPEN
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+
+        **提交之后**
+
+        - 运维按公开规则做准入初筛（字段完整性、格式、概率与截止时间窗口、明显违规内容），留痕。
+        - 通过后建仓，**冻结**你的 `criterion` 与 `criterion_source`；此后不得更换。
+        - 到期请在**原帖**提交结算证据与结论（命中 / 未中）。
+        - 证据规则：选取规则**事先冻结**，**严禁在看到门判定结果之后再选择、更换材料**。
+        - 门**不算命**：它只判你的结算主张有没有超出你所提交材料能支持的范围。
+          `ALLOW` 只表示「结算主张得到所提交材料支持」，**不表示事实绝对正确**。
+        - 门只公布**原始 verdict**；不承诺公布理由，也不会事后替它编理由。
