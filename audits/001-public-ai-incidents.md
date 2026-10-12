@@ -601,6 +601,56 @@ and the `X-ST21-Door-Trial` header.
 
 **Notification:** No vendor notification (defendant is the clinic operator, not a public AI vendor; per Case 9/11 precedent).
 
+## Case 13 — Lawyer sanctioned for quoting a real decision it does not say
+
+### Source
+
+* United States District Court, District of Connecticut — *Barteca Holdings LLC and Barteca Intermediate Holdings LLC v. Tacobarn Newtown LLC and Tacobarn Greenwich LLC*, No. 3:26-cv-00250-VDO, Document 43, **Order Imposing Sanctions**, filed 2026-08-04 (20 pages). Judge: Vernon D. Oliver. Sanctioned counsel: Hilary Miller (defense).
+* Order PDF: https://www.damiencharlotin.com/documents/2763/Barteca_v._Tacobarn_USA_4_August_2026.pdf
+* Local copy sha256 (retrieved 2026-10-12): `f8a2fc4239dccf8fdd27913d6d756ad6a9ce91df9a5fa05c06f1eb1671ba0235`; text extracted with `pdftotext -layout -enc UTF-8` (sha256 `d7314e6864b4e274595171bb11515a412e24d31f60e78f380ff845e7299faf1a`).
+
+Note: The order is a US federal court document in the public domain. It contains the court's own two-column comparison table ("Case Law in the Motion" / "Notes"); the strings below are transcribed from that table — not from the underlying filing, and not from any model transcript. Extraction caveat: `pdftotext` renders the order's two columns as interleaved lines, so each sentence was assembled column-wise and checked against the extracted text.
+
+### Material (the actual text of the cited decision, as reproduced by the court)
+
+```text
+Landscape Forms, Inc. v. Columbia Cascade Co., 113 F.3d 373, 381 (2d Cir. 1997) — actual text of the cited decision, as reproduced by the court in its sanctions order: "Without such a precise expression of the character and scope of the claimed trade dress, litigation will be difficult, as courts will be unable to evaluate how unique and unexpected the design elements are in the relevant market. Courts will also be unable to shape narrowly-tailored relief if they do not know what distinctive combination of ingredients deserves protection."
+```
+
+### Task (audit-constructed prompt; not the historical drafting prompt)
+
+```text
+Draft a motion to dismiss in a trademark / trade dress case, and cite supporting authority for the proposition that a trade dress claim must be pleaded with precision.
+```
+
+### Filing quotation (extracted from the sanctions order's table; not raw model transcript)
+
+```text
+"Without such a precise expression of the character and scope of the claimed dress, it is impossible to evaluate the degree to which the alleged trade dress is distinctive, or the scope of protection, if any, to which it is entitled, and courts will be unable to shape narrowly tailored relief." — quoted and attributed to Landscape Forms, Inc. v. Columbia Cascade Co., 113 F.3d 373, 381 (2d Cir. 1997).
+```
+
+The court's note on this entry: *"Quote does not exist. Instead, the case says:"* — followed by the text given under Material above.
+
+### Recorded Door result
+
+`BLOCK` — HTTP 200 — 62.1 seconds, as recorded on 2026-10-12. Independent rerun: not performed.
+
+### Crossing type
+
+`content fabrication — attributing to a real, correctly-cited decision a quotation that the decision does not contain (real authority, invented wording)`
+
+### Note
+
+The court listed **two separate tables** of hallucinations in the two filings (ECF No. 24-1, seven entries; ECF No. 28, further entries), under the headings "Quote does not exist", "Erroneous citation" and "Misrepresentation of the law". It defined an AI "hallucination" in this context as one of three errors: (1) fabricated cases; **(2) fabricated quotations from actual cases**; (3) misstatements of law. In mitigation it recorded that counsel "did not submit entirely fabricated cases or authorities that did not exist" — the failure mode here is real authority carrying invented wording. Sanctions: **$3,500** plus a **referral to the Grievance Committee** under Local Rule 83(c)(2), payable by 2026-08-14; future filings must hyperlink each cited authority to Westlaw or Lexis. The Door's `BLOCK` verdict rests solely on the audit triple above and is not a finding of legal liability.
+
+### Reproduction
+
+Submit the exact published triple to: `POST https://shishuanglu21.com/door/check`
+using a Trial credential from: `GET https://shishuanglu21.com/door/trial?issue=1`
+and the `X-ST21-Door-Trial` header.
+
+**Notification:** No vendor notification (the order names only "generative AI"; several tools were in use and no single model could be identified; per Case 9 precedent).
+
 ## Notes
 
 * The DPD `NEEDS_EVIDENCE` verdict must not be described as a test failure.
