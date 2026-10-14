@@ -208,6 +208,19 @@ See [`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md).
 
 ---
 
+## Adversarial Testing
+
+The Door has been subjected to adversarial testing from 11 different large
+model sources, including DeepSeek, Claude, GPT, Gemini, Grok and MiniMax.
+Testers attempt to craft material/task/output triples that cross the Door's
+boundary without being blocked.
+
+No confirmed breakthrough has been recorded to date.
+
+This list grows as new models are tested.
+
+---
+
 ## What this repository is, and is not
 
 It is the public entry: project introduction, the public call contract, the
