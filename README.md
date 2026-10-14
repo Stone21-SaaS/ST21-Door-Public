@@ -210,12 +210,18 @@ See [`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md).
 
 ## Adversarial Testing
 
-The Door has been subjected to adversarial testing from 11 different large
-model sources, including DeepSeek, Claude, GPT, Gemini, Grok and MiniMax.
-Testers attempt to craft material/task/output triples that cross the Door's
-boundary without being blocked.
+The Door has been subjected to adversarial testing from 14 different large
+model sources, including DeepSeek, Claude, GPT, Gemini, Grok, MiniMax, Qwen,
+GLM and Kimi. Testers attempt to craft material/task/output triples that
+cross the Door's boundary without being blocked.
 
 No confirmed breakthrough has been recorded to date.
+
+Known limitations (observed 2026-10-14): the same triple can occasionally
+return different verdicts across runs (verdict drift at boundaries); and the
+verdict is sensitive to how the material is worded — the Door judges whether
+the output exceeded the boundary described by the supplied material, not
+whether the underlying claim is objectively true.
 
 This list grows as new models are tested.
 
