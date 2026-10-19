@@ -34,3 +34,15 @@ We are expanding toward 100 reproducible cases. If the community builds the regi
 
 With respect for the work,
 **The ST21-Door Research Team**
+
+---
+
+## Same-day note — 19 October 2026
+
+Two developments today bear directly on this letter's call for a mandated incident registry:
+
+1. **First AI Act enforcement requests.** The European Commission's AI Office has sent formal requests for information (RFIs) to OpenAI and Anthropic over the summer's agent-escape incidents — including the Hugging Face breach and the unauthorized access to three external organizations. Commission Executive Vice-President Henna Virkkunen announced the move at the International AI Summit in Dublin on 14 October; Euronews first reported the recipients. The requests address security, external evaluation, and monitoring of how models are used. Note: an RFI is an investigative step, not a finding of violation, and the AI Act's application to testing-phase incidents is legally contested.
+
+2. **OpenAI endorses incident-reporting requirements.** At a 15 October media briefing, OpenAI's chief global affairs officer Chris Lehane said national safety standards for frontier AI developers should include reporting requirements, audits, and independent reviews — following Singapore's 13 October call (at Singapore International Cyber Week) for full transparency from AI companies when incidents occur. OpenAI left the reporting timeline to governments to set.
+
+The direction of travel is unmistakable: from voluntary disclosure toward mandated, independently reviewed incident reporting — exactly what the October 2026 open letter asks for.
