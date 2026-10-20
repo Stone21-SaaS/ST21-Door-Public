@@ -13,13 +13,40 @@ documents the public call contract and nothing else.
 
 ---
 
+## What problem does ST21-Door solve?
+
+When an AI agent or chatbot answers from source material — a policy, a
+document, a case file, a retrieval result — its output can quietly claim
+more than the material supports: a restriction becomes a shutdown, a
+single ruling becomes binding precedent, a possibility becomes a fact.
+
+ST21-Door is designed to help identify these cases. It is an independent check that
+sits between a model's output and the outside world and answers one
+question: **did this output stay inside what its material actually
+supports?**
+
+## Who is it for?
+
+- Teams wiring LLMs or agents into customer-facing answers, summaries,
+  or decisions, who need an output check that is independent of the
+  model that produced the answer.
+- Researchers and auditors studying real-world AI output failures —
+  the public audits in this repository publish their full triples for resubmission and comparison.
+- Agent builders who want an external boundary check an agent can call
+  over HTTP, through an interface that accepts no caller-identity fields.
+
+ST21-Door is an independent research project. It is not affiliated with
+any model provider.
+
+---
+
 ## Why a Door?
 
 A model can sound perfectly confident while saying something its own material never supported. That gap — between what the material establishes and what the output claims — is the only thing ST21-Door watches.
 
 The Door does not judge whether an answer is clever, well-written, or correct in some absolute sense. It judges one relationship: did the output stay inside the boundary of what the supplied material actually supports?
 
-Anyone wiring a model into decisions, summaries, or customer-facing answers can put the Door between the model's output and the world: if the output overreaches its material, it does not go out.
+Anyone wiring a model into decisions, summaries, or customer-facing answers can put the Door between the model's output and the world: A caller can use the Door’s verdict to decide whether an output should proceed.
 
 ### What crossing the boundary looks like
 
@@ -73,9 +100,8 @@ The body is an object with **exactly three string fields**:
 
 * All three fields are required, and each must be a JSON string.
 * Unknown fields are **refused, not ignored**. Identity-bearing fields
-  (provider, model, agent, client) are rejected by design, so no caller
-  identity can enter the service at all.
-* The request body is never stored or echoed back anywhere.
+  (provider, model, agent, client) are rejected by design, so no caller identity forms part of a valid request.
+* The Door service does not write request bodies to its application logs or return them in responses. Host-side verification found no evidence of request bodies in the inspected nginx access/error logs, service journals, or runs.jsonl. This verification does not cover the remote model endpoint or all infrastructure-level and transient storage.
 
 ### Response
 
@@ -202,7 +228,7 @@ Errors never look like verdicts.
 
 ## Public Audits
 
-Reproducible audits using publicly available AI outputs. Each case publishes the `material`, `task`, `model_output`, and Door verdict so anyone can reproduce the result.
+Reproducible audits using publicly available AI outputs — 13 cases so far. Each case publishes the `material`, `task`, `model_output`, and Door verdict, so anyone can resubmit the same triple and compare the returned verdict with the recorded result. Verdicts may vary across runs.
 
 See [`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md).
 
@@ -224,6 +250,73 @@ the output exceeded the boundary described by the supplied material, not
 whether the underlying claim is objectively true.
 
 This list grows as new models are tested.
+
+---
+
+## Frequently asked questions
+
+### How do I check whether an AI agent's output went beyond its source material?
+
+Send the Door one triple — the material the answer rests on, the task,
+and the model output — and it returns one verdict: `ALLOW`, `BLOCK`, or
+`NEEDS_EVIDENCE`. The Door is designed to assess whether the output claims more than the material supports — that is what `BLOCK` is for; where the supplied material cannot settle the question, the verdict is `NEEDS_EVIDENCE`, and verdicts may occasionally vary across runs. You can try this now with a self-service
+[trial header](https://shishuanglu21.com/door/trial); no account is
+needed.
+
+### Does ST21-Door decide whether an answer is true or correct?
+
+No. The Door is a boundary judge, not an answer judge. It does not grade
+answers, check arithmetic, or decide what is true in the abstract. It
+judges one relationship: whether the output stayed inside the boundary
+of what the supplied material supports.
+
+### How is this different from a content filter or a typical guardrail?
+
+Content filters screen for disallowed topics or phrasing. ST21-Door focuses on whether an output exceeds what the supplied material and task support, rather than serving as a topic-based content filter. An output fails when it overstates, upgrades, or invents beyond its material — even if every sentence is politely written and
+individually plausible.
+
+### What does the Door need from me, and what does it keep?
+
+Exactly three string fields (`material`, `task`, `model_output`) and a
+trial header. Identity-bearing fields are refused at the request-contract level, so caller identity is not part of what the Door accepts. The Door service does not write request bodies to its application logs or return them in responses. Host-side verification found no evidence of request bodies in the inspected nginx access/error logs, service journals, or runs.jsonl. This verification does not cover the remote model endpoint or all infrastructure-level and transient storage.
+
+### Can I reproduce the published audits?
+
+Yes. Every case in
+[`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md)
+publishes its full triple and the Door's verdict, so anyone can resend the same triple and compare the returned verdict with the recorded audit result. Results may vary across runs.
+
+---
+
+## 中文说明
+
+**ST21-Door 是什么？**
+一个独立的 AI 输出边界判定服务。你提交一组三元组——依据材料
+(material)、任务 (task)、模型输出 (model_output)——它只返回一个
+判定：`ALLOW`（未越界）、`BLOCK`（越界）或 `NEEDS_EVIDENCE`
+（证据不足）。
+
+**它解决什么问题？**
+大模型和智能体在依据材料作答时，常常会悄悄说过头：把"限制使用"
+说成"全面关停"，把一个个案判决说成"有约束力的先例"，把可能性
+说成事实。ST21-Door 判的就是这一件事：**输出有没有超出材料实际
+支持的范围。**
+
+**它判对错吗？**
+不判。ST21-Door 是边界裁判，不是答案裁判：它不给答案打分，不查
+算术，也不裁定抽象意义上的真假，只判输出与其依据之间的关系是否
+越界。
+
+**怎么试用？**
+自助领取试用凭证（trial header），无需注册、无需审批：
+<https://shishuanglu21.com/door/trial> 。接口为
+`POST https://shishuanglu21.com/door/check`，请求体只有上面三个
+字符串字段。
+
+**有没有公开案例？**
+有。本仓库 `audits/` 收录了 13 个公开审计案例的完整三元组与判定
+结果，任何人都可以按原文重新提交，并与记录的判定比对（不同运行的结果可能不同）。ST21-Door 是独立研究项目，
+与任何模型厂商无关。
 
 ---
 
