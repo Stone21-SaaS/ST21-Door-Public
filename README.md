@@ -169,7 +169,7 @@ approves anything, and nothing is asked of you in return.
 4. The call itself is unchanged: `POST https://shishuanglu21.com/door/check`
    with the three-field body.
 
-Trial access is deliberately short-lived and bounded. Each trial header expires
+Trial access is deliberately short-lived and bounded. Trial headers are issued at a maximum rate of one per minute per IP address; if a request to issue a header is refused, wait a minute and try again. Each trial header expires
 after about 24 hours and allows a limited number of requests (currently 100),
 whichever comes first. When it expires or runs out it is refused at the edge
 with `HTTP 403`, and you can simply visit the same page again to get a new one.
@@ -202,7 +202,7 @@ To try the Door with a Trial credential:
 3. Include the Trial credential in the `X-ST21-Door-Trial` request header.
 4. Read the returned verdict: `ALLOW`, `BLOCK`, or `NEEDS_EVIDENCE`.
 
-**Note:** The first request after a period of inactivity may take longer while the backing model starts. Agents should allow a longer request timeout for the first call.
+**Note:** The first request after a period of inactivity may take longer while the backing model starts (measured cold start: roughly 70 seconds; warm calls typically complete in 15-20 seconds). Set a client timeout of at least 90 seconds for the first call.
 
 This makes the Door directly testable by API-capable agents and computer-use agents: give an agent a material/task/output triple and let it try to cross the boundary.
 
