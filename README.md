@@ -228,9 +228,11 @@ Errors never look like verdicts.
 
 ## Public Audits
 
-Reproducible audits using publicly available AI outputs — 13 cases so far. Each case publishes the `material`, `task`, `model_output`, and Door verdict, so anyone can resubmit the same triple and compare the returned verdict with the recorded result. Verdicts may vary across runs.
+Reproducible audits using publicly available AI outputs — 14 cases so far. Each case publishes the `material`, `task`, `model_output`, and Door verdict, so anyone can resubmit the same triple and compare the returned verdict with the recorded result. Verdicts may vary across runs.
 
 See [`audits/001-public-ai-incidents.md`](audits/001-public-ai-incidents.md).
+
+* [Case 14 — Claude Code puts the account email in the User-Agent header to arbitrary websites (BLOCK)](audits/001-public-ai-incidents.md#case-14--claude-code-puts-the-account-email-in-the-user-agent-header-to-arbitrary-websites)
 
 ---
 
@@ -314,7 +316,7 @@ publishes its full triple and the Door's verdict, so anyone can resend the same 
 字符串字段。
 
 **有没有公开案例？**
-有。本仓库 `audits/` 收录了 13 个公开审计案例的完整三元组与判定
+有。本仓库 `audits/` 收录了 14 个公开审计案例的完整三元组与判定
 结果，任何人都可以按原文重新提交，并与记录的判定比对（不同运行的结果可能不同）。ST21-Door 是独立研究项目，
 与任何模型厂商无关。
 
