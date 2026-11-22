@@ -2,7 +2,7 @@
 
 ## Method
 
-Each case below identifies its public source material and preserves the relevant publicly reported wording. The `material`, `task`, and `model_output` fields used for the Door run are reproduced below exactly as submitted to the Door, with source links provided for verification.
+Each case below identifies its public source material and preserves the relevant publicly reported wording. The `material`, `task`, and `model_output` fields used for the Door run are reproduced below exactly as submitted to the Door, with source links provided for verification. Case 14 is an exception: its task is an audit-constructed description, and its `BLOCK` is a review-assigned verdict, not a production Door result.
 
 * Door evaluates the full `material` / `task` / `model_output` triple.
 * The Door is a boundary judge, not an answer judge.
