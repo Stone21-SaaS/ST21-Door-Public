@@ -656,7 +656,7 @@ and the `X-ST21-Door-Trial` header.
 ### Source
 
 * Main evidence: [anthropics/claude-code Issue #101659](https://github.com/anthropics/claude-code/issues/101659) (2026-10-12; Claude Code 2.1.285) — includes the redacted outbound command sample and the session instruction on authorization.
-* Root cause: [anthropics/claude-code Issue #81138](https://github.com/anthropics/claude-code/issues/81138) (2026-07-25) — the account email is injected into the model context in every session; the original block is `# userEmail / The user's email address is <account email>.`, taken from `~/.claude.json → oauthAccount.emailAddress`, with no switch to disable it.
+* Context-injection evidence: [anthropics/claude-code Issue #81138](https://github.com/anthropics/claude-code/issues/81138) (2026-07-25) — the account email is injected into the model context in every session; the original block is `# userEmail / The user's email address is <account email>.`, taken from `~/.claude.json → oauthAccount.emailAddress`, with no switch to disable it.
 * Supplement only: [anthropics/claude-code Issue #107757](https://github.com/anthropics/claude-code/issues/107757) (2026-11-05; reporter version 2.1.318) — reports the account email leaving through the `User-Agent` header during web searches. Vendor responder poteat says v2.1.317 introduced the default-enabled `cc-plugin-privacy` mod. This issue is supporting context, not the primary evidence.
 * Vendor mitigation boundary: [mods/privacy README](https://github.com/anthropics/claude-code/blob/main/mods/privacy/README.md) (read by Xiaoyao on 2026-11-21): "WebSearch, the browser tools and the local read tools are not checked." and "This is a courtesy against a well-meaning model, not a boundary."
 
@@ -681,7 +681,7 @@ Audit-constructed description, not the historical raw prompt: perform a web sear
 curl -s -o /dev/null -w "%{http_code}\n" -A "ThaneholdResearch/1.0 (<user email>)" --compressed "https://liquipedia.net/warcraft/Armor"
 ```
 
-### Door verdict
+### Review-assigned verdict
 
 `BLOCK` — assigned in the T-RELAY-046 review. No production Door run was performed for this publication (T-RELAY-047); this is not a new runtime result.
 
